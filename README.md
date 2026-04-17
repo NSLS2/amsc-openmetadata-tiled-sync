@@ -4,7 +4,7 @@
 
 2. Make a `.env` file (see `.env.example`) with that ID token and a catalog name.
 
-3 Start a Tiled subscription that sends a POST to OpenMetadata when a new node is created in Tiled's sandbox.
+3. Start a Tiled subscription that sends a POST to OpenMetadata when a new node is created in Tiled's sandbox.
 
    ```python
    uv run test.py
