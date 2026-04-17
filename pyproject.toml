@@ -1,0 +1,62 @@
+
+
+[project]
+name = "amsc-openmetadata-tiled-sync"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = []
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2",
+    "pydantic-settings>=2.13.1",
+    "amsc-client",
+    "tiled[client]>=0.2.1",
+]
+
+[project.scripts]
+amsc-openmetadata-tiled-sync = "amsc_openmetadata_tiled_sync:main"
+
+[build-system]
+requires = ["uv_build>=0.11.6,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "ruff>=0.15.6",
+]
+
+[tool.pytest]
+testpaths = ["tests"]
+markers = [
+    "integration: tests that require network access and valid IRI credentials",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = []
+
+[[tool.uv.index]]
+name = "amsc-client"
+url = "https://gitlab.com/api/v4/projects/77567162/packages/pypi/simple"
+
+[[tool.uv.index]]
+name = "iri-api-autogen"
+url = "https://gitlab.com/api/v4/projects/80654726/packages/pypi/simple"
+
+[[tool.uv.index]]
+name = "amsc-api-autogen"
+url = "https://gitlab.com/api/v4/projects/76368190/packages/pypi/simple"
