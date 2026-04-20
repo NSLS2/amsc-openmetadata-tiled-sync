@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-amsc-openmetadata-tiled-sync = "amsc_openmetadata_tiled_sync:main"
+listen = "amsc_openmetadata_tiled_sync.main:listen"
 
 [build-system]
 requires = ["uv_build>=0.11.6,<0.12.0"]
