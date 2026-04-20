@@ -59,8 +59,3 @@ def listen(tiled_uri):
     callback = partial(upload, tiled_uri=tiled_uri, client=client)
     sub.child_created.add_callback(callback)
     sub.start()  # block
-
-
-def main(args=sys.argv):
-    uri, = sys.argv[1:]
-    listen(tiled_uri)
