@@ -1,7 +1,6 @@
-import os
 import json
+import os
 import traceback
-import sys
 from functools import partial
 
 import httpx
@@ -11,7 +10,7 @@ from tiled.client import from_uri
 def build_body(update, tiled_uri):
     metadata = update.metadata
     if update.structure_family == "container":
-        body = { 
+        body = {
             "type": "artifactCollection",
             "name": update.key,
             "description": metadata.get("description", json.dumps(metadata)),
@@ -20,7 +19,7 @@ def build_body(update, tiled_uri):
             "parent_fqn": "bnl-lightshow-storage.bnl-lightshow-catalog.base",
         }
     else:
-        body = { 
+        body = {
             "type": "artifact",
             "name": update.key,
             "description": metadata.get("description", json.dumps(metadata)),
@@ -48,8 +47,8 @@ def upload(update, tiled_uri, client):
             json=body,
         )
         response.raise_for_status()
-    except Exception as exc:
-        traceback.print_exc() 
+    except Exception:
+        traceback.print_exc()
 
 
 def listen(tiled_uri):
@@ -59,8 +58,3 @@ def listen(tiled_uri):
     callback = partial(upload, tiled_uri=tiled_uri, client=client)
     sub.child_created.add_callback(callback)
     sub.start()  # block
-
-
-def main(args=sys.argv):
-    uri, = sys.argv[1:]
-    listen(tiled_uri)
