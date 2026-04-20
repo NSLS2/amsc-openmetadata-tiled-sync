@@ -16,6 +16,8 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
+    { name = "pydantic" },
+    { name = "pydantic-settings" },
     { name = "tiled", extra = ["client"] },
 ]
 
@@ -28,6 +30,8 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "httpx" },
+    { name = "pydantic", specifier = ">=2.13.2" },
+    { name = "pydantic-settings", specifier = ">=2.13.1" },
     { name = "tiled", extras = ["client"], specifier = ">=0.2.1" },
 ]
 
