@@ -25,6 +25,14 @@ dev = [
     "ruff>=0.15.6",
 ]
 
+globus = [
+    "globus-sdk"
+]
+
+prefect = [
+    "prefect>=3.0.0"
+]
+
 [tool.pytest]
 testpaths = ["tests"]
 markers = [
