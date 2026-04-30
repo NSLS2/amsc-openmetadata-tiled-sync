@@ -11,20 +11,20 @@ from tiled.client import from_uri
 def build_body(update, tiled_uri):
     metadata = update.metadata
     if update.structure_family == "container":
-        body = { 
+        body = {
             "type": "artifactCollection",
             "name": update.key,
             "description": metadata.get("description", json.dumps(metadata)),
-            "display_name": metadata.get("display_name", metadata["uid"]),
+            "display_name": metadata.get("display_name", metadata["xdi"]["Scan.uid"]),
             "location": f"{tiled_uri}/{update.key}",
             "parent_fqn": "bnl-lightshow-storage.bnl-lightshow-catalog.base",
         }
     else:
-        body = { 
+        body = {
             "type": "artifact",
             "name": update.key,
             "description": metadata.get("description", json.dumps(metadata)),
-            "display_name": metadata.get("display_name", metadata["uid"]),
+            "display_name": metadata.get("display_name", metadata["xdi"]["Scan.uid"]),
             "location": f"{tiled_uri}/{update.key}",
             "parent_fqn": "bnl-lightshow-storage.bnl-lightshow-catalog.base",
             "format": update.data_sources[0].mimetype,
@@ -48,8 +48,10 @@ def upload(update, tiled_uri, client):
             json=body,
         )
         response.raise_for_status()
+        print(response)
+        print(response.json())
     except Exception as exc:
-        traceback.print_exc() 
+        traceback.print_exc()
 
 
 def listen(tiled_uri):
@@ -62,5 +64,5 @@ def listen(tiled_uri):
 
 
 def main(args=sys.argv):
-    uri, = sys.argv[1:]
+    (uri,) = sys.argv[1:]
     listen(tiled_uri)
