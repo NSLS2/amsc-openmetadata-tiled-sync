@@ -4,6 +4,7 @@ import traceback
 import sys
 from functools import partial
 
+import stamina
 import httpx
 from tiled.client import from_uri
 
@@ -30,12 +31,16 @@ def build_body(update, tiled_uri):
             "location": f"{tiled_uri}/{update.key}",
             "parent_fqn": "bnl-lightshow-storage.bnl-lightshow-catalog.base",
             # FIXME: Metadata update events do not have data_sources, eventually this should be added
-            "format": getattr(getattr(update, "data_sources", [None])[0], "mimetype", "application/x-parquet"),
+            "format": getattr(
+                getattr(update, "data_sources", [None])[0],
+                "mimetype",
+                "application/x-parquet",
+            ),
             # "size":  # add this when assets know their size
         }
     return body
 
-
+@stamina.retry(on=httpx.HTTPError, attempts=5, wait_initial=30.0, wait_max=30.0, timeout=150.0)
 def upload(update, tiled_uri, client, is_update=False):
     try:
         body = build_body(update, tiled_uri)
