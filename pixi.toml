@@ -1,0 +1,12 @@
+[workspace]
+authors = ["Dan Allan <dallan@bnl.gov>"]
+channels = ["conda-forge"]
+name = "amsc-openmetadata-tiled-sync"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+uvicorn = ">=0.46.0,<0.47"
+starlette = ">=1.0.0,<2"
