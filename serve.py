@@ -71,7 +71,7 @@ def main() -> None:
         app,
         host=args.host,
         port=args.port,
-        reload=not args.no_reload,
+        # reload=not args.no_reload,
         ssl_certfile=os.getenv("AMSC_CATALOG_RELAY_SSL_CERT"),
         ssl_keyfile=os.getenv("AMSC_CATALOG_RELAY_SSL_KEY"),
     )
