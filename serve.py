@@ -19,6 +19,9 @@ import os
 import sys
 
 
+responses = []
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Start the NSLS-II AI FastAPI server.",
@@ -58,13 +61,21 @@ def main() -> None:
     import uvicorn
 
     from starlette.applications import Starlette
-    from starlette.responses import JSONResponse
+    from starlette.responses import JSONResponse, Response
     from starlette.routing import Route
 
-    def data(request):
-        return JSONResponse({"data": [1, 2, 3]})
+    def review(request):
+        return JSONResponse(responses)
 
-    routes = [Route("/data", data, methods=["GET"])]
+    def publish(request):
+        data = request.json()
+        responses.append(data)
+        return Response(status_code=204)
+
+    routes = [
+        Route("/publish", publish, methods=["POST"]),
+        Route("/review", review, methods=["GET"]),
+    ]
     app = Starlette(routes=routes)
 
     uvicorn.run(
