@@ -64,11 +64,11 @@ def main() -> None:
     from starlette.responses import JSONResponse, Response
     from starlette.routing import Route
 
-    def review(request):
+    async def review(request):
         return JSONResponse(responses)
 
-    def publish(request):
-        data = request.json()
+    async def publish(request):
+        data = await request.json()
         responses.append(data)
         return Response(status_code=204)
 
