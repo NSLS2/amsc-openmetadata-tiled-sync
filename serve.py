@@ -43,7 +43,7 @@ def build_body(update, tiled_uri):
             "type": "artifact",
             "name": path[-1],
             "description": metadata.get("description", json.dumps(metadata)),
-            "display_name": metadata.get("display_name", metadata["uid"]),
+            "display_name": metadata.get("display_name", path[-1]),
             "location": f"{tiled_uri}/{path[-1]}",
             "parent_fqn": "bnl-lse-demo-storage.bnl-lse-demo-data-catalog.base",
             "format": "application/octet-stream",
