@@ -24,7 +24,7 @@ import traceback
 import httpx
 
 
-om_client httpx.Client(base_url=os.environ["AMSC_OPENMETADATA_URL"])
+om_client = httpx.Client(base_url=os.environ["AMSC_OPENMETADATA_URL"])
 
 
 def build_body(update, tiled_uri):
