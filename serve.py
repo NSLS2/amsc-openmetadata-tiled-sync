@@ -15,7 +15,6 @@ Extra uvicorn options are passed through directly:
 """
 
 import argparse
-import collections
 import os
 import sys
 import json
@@ -120,7 +119,7 @@ def main() -> None:
     async def publish(request):
         data = await request.json()
         tiled_url = "https://tiled-staging.nsls2.bnl.gov/api/v1/metadata" + "".join(f"/{segment}" for segment in data["path"])
-        background_task = BackgroundTask(upload, data, tiled_url, om_client)
+        task = BackgroundTask(upload, data, tiled_url, om_client)
         return Response(status_code=204, task=task)
 
     routes = [
