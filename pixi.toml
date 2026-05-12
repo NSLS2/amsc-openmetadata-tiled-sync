@@ -11,3 +11,4 @@ serve = "python serve.py"
 [dependencies]
 uvicorn = ">=0.46.0,<0.47"
 starlette = ">=1.0.0,<2"
+httpx = ">=0.28.1,<0.29"
