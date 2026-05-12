@@ -110,7 +110,7 @@ def main() -> None:
     import uvicorn
 
     from starlette.applications import Starlette
-    from starlette import BackgroundTask
+    from starlette.background import BackgroundTask
     from starlette.responses import JSONResponse, Response
     from starlette.routing import Route
 
