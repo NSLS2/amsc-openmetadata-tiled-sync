@@ -58,7 +58,7 @@ def upload(update, tiled_uri, client):
         entity_type = body["type"]
         catalog_name = os.environ["AMSC_OPENMETADATA_CATALOG_NAME"]
         response = client.post(
-            f"/catalog/{catalog_name}/{entity_type}",
+            f"catalog/{catalog_name}/{entity_type}",
             headers={
                 "Authorization": f"Bearer {os.environ['AMSC_OPENMETADATA_TOKEN']}",
                 "Accept": "application/json",
