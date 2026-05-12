@@ -113,18 +113,14 @@ def main() -> None:
     from starlette.responses import JSONResponse, Response
     from starlette.routing import Route
 
-    async def review(request):
-        return JSONResponse(responses)
-
     async def publish(request):
         data = await request.json()
         tiled_url = "https://tiled-staging.nsls2.bnl.gov/api/v1/metadata" + "".join(f"/{segment}" for segment in data["path"])
         task = BackgroundTask(upload, data, tiled_url, om_client)
-        return Response(status_code=204, task=task)
+        return Response(status_code=204, background=task)
 
     routes = [
         Route("/publish", publish, methods=["POST"]),
-        Route("/review", review, methods=["GET"]),
     ]
     app = Starlette(routes=routes)
 
