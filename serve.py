@@ -67,8 +67,9 @@ def upload(update, tiled_uri, client):
             json=body,
         )
         response.raise_for_status()
+        print(response, file=sys.stderr)
     except Exception as exc:
-        traceback.print_exc() 
+        traceback.print_exc(file=sys.stderr)
 
 
 def main() -> None:
