@@ -29,7 +29,7 @@ om_client = httpx.Client(base_url=os.environ["AMSC_OPENMETADATA_URL"])
 def build_body(update, tiled_uri):
     metadata = update["metadata"]
     path = update["path"]
-    if update.structure_family == "container":
+    if update["structure_family"] == "container":
         body = {
             "type": "artifactCollection",
             "name": path[-1],
@@ -46,7 +46,7 @@ def build_body(update, tiled_uri):
             "display_name": metadata.get("display_name", metadata["uid"]),
             "location": f"{tiled_uri}/{path[-1]}",
             "parent_fqn": "bnl-lse-demo-storage.bnl-lse-demo-data-catalog.base",
-            "format": update.data_sources[0].mimetype,
+            "format": "application/octet-stream",
             # "size":  # add this when assets know their size
         }
     return body
