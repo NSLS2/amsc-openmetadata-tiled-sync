@@ -20,14 +20,11 @@ import os
 import sys
 import json
 import traceback
-import sys
-from functools import partial
 
 import httpx
-from tiled.client import from_uri
 
 
-responses = collections.deque()
+om_client httpx.Client(base_url=os.environ["AMSC_OPENMETADATA_URL"])
 
 
 def build_body(update, tiled_uri):
@@ -35,20 +32,20 @@ def build_body(update, tiled_uri):
     if update.structure_family == "container":
         body = { 
             "type": "artifactCollection",
-            "name": update.key,
+            "name": path[-1],
             "description": metadata.get("description", json.dumps(metadata)),
             "display_name": metadata.get("display_name", metadata["uid"]),
-            "location": f"{tiled_uri}/{update.key}",
-            "parent_fqn": "bnl-lightshow-storage.bnl-lightshow-catalog.base",
+            "location": f"{tiled_uri}/{path[-1]}",
+            "parent_fqn": "bnl-lse-demo-storage.bnl-lse-demo-data-catalog.base",
         }
     else:
         body = { 
             "type": "artifact",
-            "name": update.key,
+            "name": path[-1],
             "description": metadata.get("description", json.dumps(metadata)),
             "display_name": metadata.get("display_name", metadata["uid"]),
-            "location": f"{tiled_uri}/{update.key}",
-            "parent_fqn": "bnl-lightshow-storage.bnl-lightshow-catalog.base",
+            "location": f"{tiled_uri}/{path[-1]}",
+            "parent_fqn": "bnl-lse-demo-storage.bnl-lse-demo-data-catalog.base",
             "format": update.data_sources[0].mimetype,
             # "size":  # add this when assets know their size
         }
@@ -113,6 +110,7 @@ def main() -> None:
     import uvicorn
 
     from starlette.applications import Starlette
+    from starlette import BackgroundTask
     from starlette.responses import JSONResponse, Response
     from starlette.routing import Route
 
@@ -121,8 +119,9 @@ def main() -> None:
 
     async def publish(request):
         data = await request.json()
-        responses.append(data)
-        return Response(status_code=204)
+        tiled_url = "https://tiled-staging.nsls2.bnl.gov/api/v1/metadata" + "".join(f"/{segment}" for segment in data["path"])
+        background_task = BackgroundTask(upload, data, tiled_url, om_client)
+        return Response(status_code=204, task=task)
 
     routes = [
         Route("/publish", publish, methods=["POST"]),
